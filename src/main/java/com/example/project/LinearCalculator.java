@@ -1,6 +1,8 @@
 package com.example.project;
 public class LinearCalculator{
-        private int x1 = 0;
+    //INSTANCE VARIABLES 
+    //4 INTEGER variables (name them: x1,x2,y1,y2) 
+    private int x1 = 0;
     private int x2 = 0;
     private int y1 = 0;
     private int y2 = 0;
@@ -9,10 +11,10 @@ public class LinearCalculator{
     //For example, "(1,2)" and "(3,4)" would be two parameter values 
     //You will have to parse the string into 4 integers, representing the 2 points.
     public LinearCalculator(String coord1, String coord2){ // <--add 2 string parameters to this constructor
-
-    String x1temp = coord1.substring(1,coord1.indexOf(","));
+        //these use .length instead of a number to include negatives
+    String x1temp = coord1.substring(1,coord1.indexOf(",")); // gets rid of the parentheses and stops at the first number
     x1 = Integer.parseInt(x1temp);
-    String y1temp = coord1.substring(coord1.indexOf(",") + 1,coord1.length() - 1);
+    String y1temp = coord1.substring(coord1.indexOf(",") + 1,coord1.length() - 1); //starts at the second number and stops before the parentheses
     y1 = Integer.parseInt(y1temp);
     String x2temp = coord2.substring(1,coord2.indexOf(","));
     x2 = Integer.parseInt(x2temp);
@@ -37,11 +39,10 @@ public class LinearCalculator{
     //distance() -> returns a double. 
     //calculates the distance between the two points to the nearest HUNDREDTH and returns the value.
     public double distance(){
+        //this is the commented out method below, but compacted. it uses the pythagorean theorem to find the a length, using the 2 points to calculated the lengths of the legs
         double finaldis = roundedToHundredth(Math.pow(Math.pow((double)x2 - x1,2) + Math.pow((double)y2 - y1,2),0.5));
         return finaldis;
     }
-
-
 
     /*double xdistance = (double)x2 - x1;
     double ydistance = (double)y2 - y1;
@@ -57,6 +58,7 @@ public class LinearCalculator{
     //calculates the y intercept of the equation and returns the value to the nearest HUNDREDTH
     //if y-int if undefined, should return -999.99
     public double yInt(){
+        // this takes the slope and multiplies it by the value of the first x. This value is how much y has advanced since the yintercept. y1 is subtracted from it to find the y intercept
         double distanceneededtobesubtracted = slope() * x1;
         if (slope() == -999.99) {
             return -999.99;
@@ -69,6 +71,7 @@ public class LinearCalculator{
     //calculates the slope of the equations and returns the value to the nearest HUNDREDTH
     //if slope is undefined, should return -999.99
     public double slope(){
+        // This divides the difference in y by the distance of x, which is the classic slope formula. If the denominator is 0, it would be undefined, as you cant divide by 0
         double rise = y2 - y1;
         double run = x2 - x1;
         if (run != 0) {
@@ -139,11 +142,14 @@ public class LinearCalculator{
     //return "No symmetry";
     public String findSymmetry(){
         if (x1 == x2 && Math.abs(y1) == Math.abs(y2)) {
+            //if the x values are the same but the y values are opposite, it is symetric across x axis
             return "Symmetric about the x-axis";
         } else if (y1 == y2 && Math.abs(x1) == Math.abs(x2)) {
             return "Symmetric about the y-axis";
+             //if the y values are the same but the x values are opposite, it is symetric across y axis
         } else if (Math.abs(x1) == Math.abs(x2) && Math.abs(y1) == Math.abs(y2)) {
             return "Symmetric about the origin";
+            //if both values are opposites, its symetric across the origin. Since the other things are called before this, there wont be any errors
         } else {
             return "No symmetry";
         }
@@ -153,7 +159,7 @@ public class LinearCalculator{
     //the method should calculate the midpoint between the two points
     //it should return "The midpoint of this line is: (0,0)";
     public String Midpoint(){
-        double midOfx = (x2 + x1) / 2;
+        double midOfx = (x2 + x1) / 2; //finds the average of the 2 points, which is in the middle. This is done the same for the y axis
         double midOfy = (y2 + y1) / 2;
         return "The midpoint of this line is: (" + midOfx + "," + midOfy + ")";
     }
